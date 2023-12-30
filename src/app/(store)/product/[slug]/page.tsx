@@ -1,6 +1,7 @@
 import { api } from '@/data/api'
 import { Product } from '@/data/types/product'
 import { toLocalePrice } from '@/utils/toLocalePrice'
+import { Metadata } from 'next'
 import Image from 'next/image'
 
 interface ProductProps {
@@ -11,17 +12,22 @@ interface ProductProps {
 
 async function getProduct(slug: string): Promise<Product> {
   const response = await api(`/products/${slug}`, {
-    cache: 'no-store',
-    // next: {
-    //   revalidate: 60 * 60,
-    // },
+    next: {
+      revalidate: 60 * 60,
+    },
   })
-
-  console.log(response)
 
   const product = await response.json()
 
   return product
+}
+
+export async function generateMetadata({
+  params,
+}: ProductProps): Promise<Metadata> {
+  const { title } = await getProduct(params.slug)
+
+  return { title }
 }
 
 export default async function ProductPage({ params }: ProductProps) {
@@ -32,7 +38,7 @@ export default async function ProductPage({ params }: ProductProps) {
       <div className="col-span-2 overflow-hidden ">
         <Image
           src={product.image}
-          alt=""
+          alt={product.title}
           width={1000}
           height={1000}
           quality={100}
