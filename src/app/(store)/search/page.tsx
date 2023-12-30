@@ -13,9 +13,9 @@ interface SearchProps {
 
 async function searchProducts(query: string): Promise<Product[]> {
   const response = await api(`/products/search?q=${query}`, {
-    next: {
-      revalidate: 60 * 60,
-    },
+    // next: {
+    //   revalidate: 60 * 60,
+    // },
   })
 
   const products = await response.json()
@@ -37,7 +37,7 @@ export default async function Search({ searchParams }: SearchProps) {
       <p className="text-sm">
         Resultados para: <span className="font-semibold">{query}</span>
       </p>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-6 justify-between">
         {products.map((product) => {
           return (
             <Link
