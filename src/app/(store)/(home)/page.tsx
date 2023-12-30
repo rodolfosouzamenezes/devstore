@@ -1,6 +1,6 @@
 import { api } from '@/data/api'
 import { Product } from '@/data/types/product'
-import { toLocalePrice } from '@/utills/toLocalePrice'
+import { toLocalePrice } from '@/utils/toLocalePrice'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -47,7 +47,7 @@ export default async function Home() {
         return (
           <Link
             key={product.id}
-            href={`/products/${product.slug}`}
+            href={`/product/${product.slug}`}
             className="group relative col-span-3 row-span-3 ronded-lg bg-zinc-900 overflow-hidden flex justify-center items-start"
           >
             <Image
